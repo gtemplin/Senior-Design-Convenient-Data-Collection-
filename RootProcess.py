@@ -1,67 +1,36 @@
-import json
 import os
-import pathlib
+import multiprocessing
+import subprocess
 import time
-# from openhab import OpenHAB
-# import openhab.oauth2_helper
-import requests
-import urllib3
-
+import contextlib
 
 Curpath='C:/Users/liyae/IdeaProjects/IAC_HASS_EdgePC/IAC_SENSOR_PROG_V2'
 
-def json_to_dict(filename):
-    fp = open(filename, 'r')
-    data = json.load(fp)
-    fp.close()
-    return data
-
-def FetchIPAddressForRaspberryPie(unitName):
-    print('Fetching IP address for Raspberry Pie')
-    url=webserver_address.format("7", unitName)
+def execute_script(script_path):
     try:
-        response = requests.get(url, verify=False)
-        if response.ok:
-            responseCleaned=response.text.replace("Database connected", '')
-            if responseCleaned != "" and response.text is not None:
-                networkInfo= [json.loads(idx.replace("'", '"')) for idx in [responseCleaned]]
-                return networkInfo[0][0]
-        return None
-    except Exception as c:
-        print('Exception in the call request to update URL')
-        return None
+        subprocess.run(['python', script_path], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing {script_path}: {e}")
 
-def UpdateIPAddressForRaspberryPie(unit):
-    info=FetchIPAddressForRaspberryPie(unit['UnitName'])
-    if info is not None:
-        unit["ip_address_homeAssist"]=info['Ip_Address']
-        unit["portHomeAssist"]=info['PortID']
-        unit["PreviousIpSynchronizationTimeStamp"]=time.time()
-    return
+if __name__ == '__main__':
+    try:
+        os.remove(os.path.join(Curpath, ".oauth2_token"))
+    except Exception:
+        pass
 
-def UpdateNetworkDetailsForRasperryPieInBulk(RaspberryPiUnits):
-    print('Initializing network details for Raspberry Pie')
-    for unit in RaspberryPiUnits:
-        UpdateIPAddressForRaspberryPie(unit)
-    return
+    try:
+        os.remove(os.path.join(Curpath, "CommunicationFlag.txt"))
+    except Exception:
+        pass
 
-def CheckIfIPAddressForRaspberryPieRequireRefresh(unit):
-    if unit["PreviousIpSynchronizationTimeStamp"] == 0:
-        return True
-    else:
-        interval=time.time()-unit["PreviousIpSynchronizationTimeStamp"]
-        return (interval>config["RaspberrySynchronizingIntervalInSeconds"])
+    processes = [
+        os.path.join(Curpath, 'Sensing.py'),
+        os.path.join(Curpath, 'ActuatorControl.py'),
+        os.path.join(Curpath, 'DatabaseWrite.py')
+    ]
 
-
-def RefreshIPAddressForRaspberryPiUnitsBulk(units):
-    for unit in units:
-        if CheckIfIPAddressForRaspberryPieRequireRefresh(unit):
-            print('Refreshing IP address for Raspberry Pie')
-            UpdateIPAddressForRaspberryPie(unit)
-    return
-
-
-
-js=Curpath+"/configCustomer.json"
-config = json_to_dict(js)
-webserver_address = config['WebserverAddress']
+    with contextlib.suppress(KeyboardInterrupt):
+        pool = multiprocessing.Pool(processes=3)
+        pool.map(execute_script, processes)
+        pool.close()
+        pool.join()

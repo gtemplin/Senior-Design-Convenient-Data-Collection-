@@ -36,6 +36,7 @@ async def sendData(url):
     return bool(int(response.status_code)==200)
 
 
+# uses python's file management function to append 
 def write_to_backup(backup, data):
     with open(backup, "a") as _:
         _.write(data)

@@ -1,11 +1,11 @@
-import json
-import os
-import requests
-import configparser
-import asyncio
+import json  # interact with json 
+import os  # interact with the operating system 
+import requests  # used to make http requests or interact with   
+import configparser # handle configuration files to store preferences 
+import asyncio  # helps manage multiple IO related tasks 
 
 # current working directory
-import urllib3
+import urllib3  # used for making requests to web servers through http 
 
 
 Curpath='C:/Users/liyae/IdeaProjects/IAC_HASS_EdgePC/IAC_SENSOR_PROG_V2'

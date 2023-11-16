@@ -69,9 +69,10 @@ def json_to_dict(filename):
     fp.close()
     return data
 
-
+# the web server for a particular customer is extracted from a json file 
 config = json_to_dict(str(Curpath)+"/configCustomer.json")
 webserver_address = config['WebserverAddress']
+
 
 # Open backup file (file may or may not exist already)
 if  not os.path.isfile(str(Curpath)+"/BackupData.txt"):

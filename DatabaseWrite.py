@@ -13,6 +13,9 @@ Curpath='C:/Users/liyae/IdeaProjects/IAC_HASS_EdgePC/IAC_SENSOR_PROG_V2'
 debug = False
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
+# format a message and send to database
+# the asyncio loop lets this wait until complete w/o bottlenecking the whole program  
 def send_to_database(address, msg):
     try:
         if msg!='':
@@ -26,7 +29,7 @@ def send_to_database(address, msg):
         print(c)
         return False;
 
-
+# uses an http get request to send the data 
 async def sendData(url):
     print(url)
     response= requests.get(url, verify=False)

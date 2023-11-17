@@ -110,6 +110,7 @@ while True:
 
         if debug:
             print("FILE CONTENTS: {}".format(fileContents))
+
         start_index = 0
         successfulSend=False
         for i in range(0, len(fileContents), 1):
@@ -123,10 +124,8 @@ while True:
                 #     break;
 
         if not successfulSend:
-
             print("CONNECTION IS DOWN--BACKING UP DATA")
             write_to_backup(str(Curpath)+"/BackupData.txt", fileContents)
-
         else:
             backup = open(str(Curpath)+"/BackupData.txt")
             backupContents = backup.read()

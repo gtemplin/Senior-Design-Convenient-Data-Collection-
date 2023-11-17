@@ -126,6 +126,7 @@ while True:
                 # if not successfulSend:
                 #     break;
 
+# This portion backs up the data if it wasn't successful and sends any data in the backup text file to the database
         if not successfulSend:
             print("CONNECTION IS DOWN--BACKING UP DATA")
             write_to_backup(str(Curpath)+"/BackupData.txt", fileContents)

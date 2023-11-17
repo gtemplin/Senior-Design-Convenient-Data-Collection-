@@ -75,6 +75,7 @@ webserver_address = config['WebserverAddress']
 
 
 # Open backup file (file may or may not exist already)
+# if there is no backup, this makes it 
 if  not os.path.isfile(str(Curpath)+"/BackupData.txt"):
     f = open(str(Curpath)+"/BackupData.txt", "x")
     f.close()

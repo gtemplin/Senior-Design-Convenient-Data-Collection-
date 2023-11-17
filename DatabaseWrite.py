@@ -111,6 +111,9 @@ while True:
         if debug:
             print("FILE CONTENTS: {}".format(fileContents))
 
+
+# Parse through the file contents until you get to the delimiter ($)
+# After this you can send the stored message to the database 
         start_index = 0
         successfulSend=False
         for i in range(0, len(fileContents), 1):

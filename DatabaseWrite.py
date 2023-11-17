@@ -79,6 +79,8 @@ webserver_address = config['WebserverAddress']
 if  not os.path.isfile(str(Curpath)+"/BackupData.txt"):
     f = open(str(Curpath)+"/BackupData.txt", "x")
     f.close()
+
+# If either of the flags are set, store the data from the file associated with it, then clear that file so that it can be used again later. 
 while True:
     if os.path.isfile(str(Curpath)+"/CommunicationFlag.txt") or os.path.isfile(str(Curpath)+"/CommunicationFlagActuator.txt"):
         fileContents = ""

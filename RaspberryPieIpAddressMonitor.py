@@ -7,7 +7,7 @@ import time
 import requests
 import urllib3
 
-
+# get the path where data is stored 
 Curpath='C:/Users/liyae/IdeaProjects/IAC_HASS_EdgePC/IAC_SENSOR_PROG_V2'
 
 def json_to_dict(filename):

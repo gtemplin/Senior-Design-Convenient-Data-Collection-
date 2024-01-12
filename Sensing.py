@@ -181,6 +181,7 @@ def pack_sensor_info_msg_3(pc_name, node_name, control_port_name,porttype, brand
 # parameters: name of the node that the device is connected to, ID of the sensing device, z-wave network
 # return: current value of the sensor device
 # status: complete
+# THIS MAY NEED TO BE REPLACED BY SOMETHING THAT READS LOCAL SQLITE VALUES
 def read_sensor_data(sensor_id,associated_raspi,RetryCount=0):
     try:
         url=systemData["UrlFetchSensorDataAndStatus"] \

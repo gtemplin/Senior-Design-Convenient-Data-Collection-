@@ -21,7 +21,6 @@ def send_to_database(address, msg):
         if msg!='':
             url=address.format(msg[0: 1], msg[2:])
             loop = asyncio.get_event_loop()
-
             return loop.run_until_complete(sendData(url))
     except ConnectionError as c:
         return False;
